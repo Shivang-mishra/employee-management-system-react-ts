@@ -1,0 +1,33 @@
+import type { Employee } from "../types/employee";
+export const initialEmployees: Employee[]=[
+    {
+      id:1,
+      name:"shiva",
+      email:"shiva@123.com",
+      department:"HR"
+    },
+    {
+      id:2,
+      name:"harsh",
+      email:"harsh@123.com",
+      department:"IT"
+    },
+    {
+      id:3,
+      name:"shivam",
+      email:"shivam@123.com",
+      department:"HR"
+    },
+    {
+      id:4,
+      name:"Arjun",
+      email:"arjun@123.com",
+      department:"sales"
+    },
+    {
+      id:5,
+      name:"shiv",
+      email:"shiv@123.com",
+      department:"support"
+    },
+];
