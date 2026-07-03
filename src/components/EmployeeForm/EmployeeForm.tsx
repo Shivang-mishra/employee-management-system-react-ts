@@ -11,10 +11,47 @@ function EmployeeForm({onSave}:EmployeeFormProps) {
   const [name, setName] = useState("");
 const [email, setEmail] = useState("");
 const [department, setDepartment] = useState("");
+const [nameError, setNameError] = useState("");
+const [emailError, setEmailError] = useState("");
+const [departmentError, setDepartmentError] = useState("");
+
+const handleSave=()=>{
+  let isValid=true
+  if(name.trim()==""){
+    setNameError("Name is Riquired");
+    isValid=false
+  }else{
+    if(!isValid) return
+
+    onSave({
+      name,email,department,
+    })
+  }
+  if (email.trim() === "") {
+  setEmailError("Email is required");
+  isValid = false;
+} else if (!/\S+@\S+\.\S+/.test(email)) {
+  setEmailError("Please enter a valid email");
+  isValid = false;
+} else {
+  setEmailError("");
+}
+const validDepartments = ["HR", "IT", "Sales"];
+
+if (department === "") {
+  setDepartmentError("Please select a department");
+  isValid = false;
+} else if (!validDepartments.includes(department)) {
+  setDepartmentError("Invalid department selected");
+  isValid = false;
+} else {
+  setDepartmentError("");
+}
+}
   return (
     <Card
       sx={{
-        maxWidth: 500,
+        maxWidth: 400,
         margin: "30px auto",
         borderRadius: 3,
         boxShadow: 3,
@@ -32,6 +69,8 @@ const [department, setDepartment] = useState("");
         placeholder="Enter the Name"
           value={name}
   onChange={(e) => setName(e.target.value)}
+  error={Boolean(nameError)}
+  helperText={nameError}
         />
 
   <TextField
@@ -42,6 +81,8 @@ const [department, setDepartment] = useState("");
           sx={{ mt: 2 }}
            value={email}
   onChange={(e) => setEmail(e.target.value)}
+   error={Boolean(emailError)}
+  helperText={emailError}
        />
 
             <TextField
@@ -51,6 +92,8 @@ const [department, setDepartment] = useState("");
           sx={{ mt: 2 }}
            value={department}
   onChange={(e) => setDepartment(e.target.value)}
+  error={Boolean(departmentError)}
+  helperText={departmentError}
         >
              <MenuItem value="HR">HR</MenuItem>
           <MenuItem value="IT">IT</MenuItem>
@@ -61,14 +104,7 @@ const [department, setDepartment] = useState("");
   variant="contained"
   fullWidth
   sx={{ mt: 2 }}
-  onClick={() => {
-    onSave({
-      name,
-      email,
-      department,
-    });
-  }}
->
+  onClick={handleSave}>
   Save
 </Button>
       </CardContent>

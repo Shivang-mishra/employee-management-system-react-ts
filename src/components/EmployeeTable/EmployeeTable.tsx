@@ -1,10 +1,12 @@
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid,  } from "@mui/x-data-grid";
 import { Button } from "@mui/material";
 import type { Employee } from "../../types/employee";
 
 interface EmployeeTableProps {
   employees: Employee[]
+   onEdit: (employee: Employee) => void;
 }
+function EmployeeTable({ employees,onEdit }: EmployeeTableProps) {
 
 const columns = [
   {
@@ -32,9 +34,11 @@ const columns = [
     headerName: "Actions",
     width: 220,
 
-    renderCell: () => (
+    renderCell: (params:any ) => (
       <>
-        <Button variant="contained" size="small">
+        <Button variant="contained" size="small"
+         onClick={() => onEdit(params.row)}
+        >
           Edit
         </Button>
 
@@ -43,6 +47,7 @@ const columns = [
           color="error"
           size="small"
           style={{ marginLeft: "10px" }}
+           onClick={() => console.log(params.row)}
         >
           Delete
         </Button>
@@ -51,7 +56,6 @@ const columns = [
 
   }
 ];
-function EmployeeTable({ employees }: EmployeeTableProps) {
   return (
     <div style={{ height: 400, width: "100%" }}>
       <DataGrid
