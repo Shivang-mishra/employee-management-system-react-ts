@@ -1,0 +1,49 @@
+.header-card{
+    background:#f7f6f6;
+    border-radius:22px;
+    padding:22px 30px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.06);
+
+    margin-bottom:25px;
+}
+
+.header-left{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.header-icon{
+    width:56px;
+    height:56px;
+
+    border-radius:14px;
+
+    background:#eef4ff;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.header-left h1{
+    margin:0;
+    font-size:48px;
+    font-weight:700;
+    color:#1E293B;
+}
+
+.add-btn{
+    text-transform:none !important;
+    border-radius:12px !important;
+    padding:12px 26px !important;
+    font-size:17px !important;
+    font-weight:600 !important;
+
+    box-shadow:0 8px 20px rgba(37,99,235,.30)!important;
+}

@@ -1,0 +1,28 @@
+.employee-section{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.employee-title{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.employee-title h2{
+    margin:0;
+    font-size:34px;
+    font-weight:700;
+    color:#1e293b;
+}
+
+.search-input{
+    width:370px;
+}
+
+.search-input .MuiOutlinedInput-root{
+    border-radius:12px;
+    background:#fff;
+}

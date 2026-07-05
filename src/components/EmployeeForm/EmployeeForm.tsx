@@ -1,114 +1,166 @@
-import { TextField,Button, MenuItem, Card, CardContent, Typography} from "@mui/material";
-import { useState } from "react";
+import {
+  Box,
+  Button,
+  MenuItem,
+  TextField,
+} from "@mui/material";
+import { useEffect, useState } from "react";
+import type { Employee } from "../../types/employee";
+
 interface EmployeeFormProps {
+  employee: Employee | null;
   onSave: (employee: {
     name: string;
     email: string;
     department: string;
   }) => void;
+  onCancel: () => void;
 }
-function EmployeeForm({onSave}:EmployeeFormProps) {
-  const [name, setName] = useState("");
-const [email, setEmail] = useState("");
-const [department, setDepartment] = useState("");
-const [nameError, setNameError] = useState("");
-const [emailError, setEmailError] = useState("");
-const [departmentError, setDepartmentError] = useState("");
 
-const handleSave=()=>{
-  let isValid=true
-  if(name.trim()==""){
-    setNameError("Name is Riquired");
-    isValid=false
-  }else{
-    if(!isValid) return
+function EmployeeForm({
+  employee,
+  onSave,
+  onCancel,
+}: EmployeeFormProps) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [department, setDepartment] = useState("");
+
+  const [nameError, setNameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [departmentError, setDepartmentError] = useState("");
+
+  useEffect(() => {
+    if (employee) {
+      setName(employee.name);
+      setEmail(employee.email);
+      setDepartment(employee.department);
+    } else {
+      setName("");
+      setEmail("");
+      setDepartment("");
+    }
+
+    setNameError("");
+    setEmailError("");
+    setDepartmentError("");
+  }, [employee]);
+
+  const handleSave = () => {
+    let valid = true;
+
+    
+    if (name.trim() === "") {
+      setNameError("Name is required");
+      valid = false;
+    } else {
+      setNameError("");
+    }
+
+   
+    if (email.trim() === "") {
+      setEmailError("Email is required");
+      valid = false;
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      setEmailError("Enter a valid email");
+      valid = false;
+    } else {
+      setEmailError("");
+    }
+
+    
+    if (department === "") {
+      setDepartmentError("Please select a department");
+      valid = false;
+    } else {
+      setDepartmentError("");
+    }
+
+    if (!valid) return;
 
     onSave({
-      name,email,department,
-    })
-  }
-  if (email.trim() === "") {
-  setEmailError("Email is required");
-  isValid = false;
-} else if (!/\S+@\S+\.\S+/.test(email)) {
-  setEmailError("Please enter a valid email");
-  isValid = false;
-} else {
-  setEmailError("");
-}
-const validDepartments = ["HR", "IT", "Sales"];
+      name: name.trim(),
+      email: email.trim(),
+      department,
+    });
+  };
 
-if (department === "") {
-  setDepartmentError("Please select a department");
-  isValid = false;
-} else if (!validDepartments.includes(department)) {
-  setDepartmentError("Invalid department selected");
-  isValid = false;
-} else {
-  setDepartmentError("");
-}
-}
   return (
-    <Card
+    <Box
       sx={{
-        maxWidth: 400,
-        margin: "30px auto",
-        borderRadius: 3,
-        boxShadow: 3,
+        mt: 1,
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
       }}
     >
-<CardContent>
-        <Typography variant="h5" gutterBottom>
-            Add New Employee
-        </Typography>
+      <TextField
+        label="Employee Name"
+        fullWidth
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        error={Boolean(nameError)}
+        helperText={nameError}
+      />
 
-    <TextField
-          label="Name"
+      <TextField
+        label="Email Address"
+        fullWidth
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        error={Boolean(emailError)}
+        helperText={emailError}
+      />
+
+      <TextField
+        select
+        label="Department"
+        fullWidth
+        value={department}
+        onChange={(e) => setDepartment(e.target.value)}
+        error={Boolean(departmentError)}
+        helperText={departmentError}
+      >
+        <MenuItem value="IT">IT</MenuItem>
+        <MenuItem value="HR">HR</MenuItem>
+        <MenuItem value="Sales">Sales</MenuItem>
+        <MenuItem value="Support">Support</MenuItem>
+      </TextField>
+
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-end",
+          gap: 2,
+          mt: 2,
+        }}
+      >
+        <Button
           variant="outlined"
-            fullWidth
-        placeholder="Enter the Name"
-          value={name}
-  onChange={(e) => setName(e.target.value)}
-  error={Boolean(nameError)}
-  helperText={nameError}
-        />
-
-  <TextField
-          label="Email"
-            variant="outlined"
-          fullWidth
-      placeholder="Enter Email"
-          sx={{ mt: 2 }}
-           value={email}
-  onChange={(e) => setEmail(e.target.value)}
-   error={Boolean(emailError)}
-  helperText={emailError}
-       />
-
-            <TextField
-          select
-          label="Department"
-          fullWidth
-          sx={{ mt: 2 }}
-           value={department}
-  onChange={(e) => setDepartment(e.target.value)}
-  error={Boolean(departmentError)}
-  helperText={departmentError}
+          color="inherit"
+          onClick={onCancel}
+          sx={{
+            textTransform: "none",
+            borderRadius: 2,
+            minWidth: 110,
+          }}
         >
-             <MenuItem value="HR">HR</MenuItem>
-          <MenuItem value="IT">IT</MenuItem>
-      <MenuItem value="Sales">Sales</MenuItem>
-        </TextField>
+          Cancel
+        </Button>
 
-       <Button
-  variant="contained"
-  fullWidth
-  sx={{ mt: 2 }}
-  onClick={handleSave}>
-  Save
-</Button>
-      </CardContent>
-    </Card>
+        <Button
+          variant="contained"
+          onClick={handleSave}
+          sx={{
+            textTransform: "none",
+            borderRadius: 2,
+            minWidth: 110,
+          }}
+        >
+          {employee ? "Update" : "Save"}
+        </Button>
+      </Box>
+    </Box>
   );
 }
 
