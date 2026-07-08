@@ -23,7 +23,7 @@ function EmployeeTable({
   const columns: GridColDef[] = [
 {
   field: "serial",
-  headerName: "S.No",
+  headerName: "S.NO",
   width: 80,
   sortable: false,
 

@@ -105,6 +105,19 @@ function App() {
     email: string;
     department: string;
   }) => {
+    
+const emailExists = employees.some(
+  (emp) =>
+    emp.email.toLowerCase() === employee.email.toLowerCase() &&
+    emp.id !== selectedEmployee?.id
+);
+
+if (emailExists) {
+  setSnackbarMessage("Employee already exists");
+  setSnackbarSeverity("error");
+  setSnackbarOpen(true);
+  return;
+}
     if (selectedEmployee) {
       const updatedEmployees = employees.map(
         (emp) =>
@@ -132,8 +145,8 @@ function App() {
   ...employee,
 };
       setEmployees([
-        ...employees,
         newEmployee,
+        ...employees,
       ]);
 
       setSnackbarMessage(
@@ -150,10 +163,9 @@ function App() {
     return (
     <div className="app-container">
 
-      {/* Header */}
+      
       <Header onAdd={handleAddEmployee} />
 
-      {/* Employee List + Search + Table */}
       <div className="table-card">
 
         <EmployeeSection
@@ -169,7 +181,7 @@ function App() {
 
       </div>
 
-      {/* Add / Edit Employee Dialog */}
+
       <Dialog
         open={open}
         onClose={handleClose}
@@ -212,7 +224,6 @@ function App() {
         </DialogContent>
       </Dialog>
 
-      {/* Delete Confirmation Dialog */}
       <Dialog
         open={deleteId !== null}
         onClose={() => setDeleteId(null)}
@@ -253,7 +264,7 @@ function App() {
 
       </Dialog>
 
-      {/* Snackbar */}
+    ]
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={2500}
